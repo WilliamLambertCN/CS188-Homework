@@ -216,14 +216,11 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         for next_action in legal_actions:
             nextState = gameState.generateSuccessor(0, next_action)
 
-            next_alpha, next_beta, next_value = self.get_node_value(nextState, 0, 1, alpha, beta)
-            alpha = max(next_alpha, alpha)
-            beta = min(next_beta, beta)
-            # print(alpha)
+            next_value = self.get_node_value(nextState, 0, 1, alpha, beta)
+            # same as v = max(v, value(successor))
             if next_value > now_value:
-                now_value = next_value
-                next_PacmanAction = next_action
-
+                now_value, next_PacmanAction = next_value, next_action
+            alpha = max(alpha, now_value)
         return next_PacmanAction
         util.raiseNotDefined()
 
@@ -231,17 +228,13 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         """
         Using self-defined function, alpha_value(), beta_value() to choose the most appropriate action
         Only when it's the final state, can we get the value of each node, using the self.evaluationFunction(gameState)
-        Otherwise we just get the alpha/beta value we difined here.
-        :param cur_depth:
-        :param agent_index:
-        :return: self.evaluationFunction(gameState)
+        Otherwise we just get the alpha/beta value we defined here.
         """
         max_party = [0, ]
         min_party = list(range(1, gameState.getNumAgents()))
 
         if cur_depth == self.depth or gameState.isLose() or gameState.isWin():
-            return alpha, beta, self.evaluationFunction(gameState)
-
+            return self.evaluationFunction(gameState)
         elif agent_index in max_party:
             return self.alpha_value(gameState, cur_depth, agent_index, alpha, beta)
         elif agent_index in min_party:
@@ -253,41 +246,39 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         v = -1e10
         legal_actions = gameState.getLegalActions(agent_index)
         for index, action in enumerate(legal_actions):
-            alpha, beta, next_v, = self.get_node_value(gameState.generateSuccessor(agent_index, action),
-                                                       cur_depth, agent_index + 1, alpha, beta)
+            next_v = self.get_node_value(gameState.generateSuccessor(agent_index, action),
+                                         cur_depth, agent_index + 1, alpha, beta)
             v = max(v, next_v)
-            if v >= beta:  # next_agent in which party
-                return alpha, beta, v
+            if v > beta:  # next_agent in which party
+                return v
             alpha = max(alpha, v)
-        return alpha, beta, v
+            # print("alpha>> ", alpha)
+        return v
 
     def beta_value(self, gameState, cur_depth, agent_index, alpha=-1e10, beta=1e10):
         """
         min_party, search for minimums
-        :param gameState:
-        :param cur_depth:
-        :param agent_index:
-        :param alpha:
-        :param beta:
-        :return:
         """
         v = 1e10
         legal_actions = gameState.getLegalActions(agent_index)
         for index, action in enumerate(legal_actions):
             if agent_index == gameState.getNumAgents() - 1:
-                alpha, beta, next_v = self.get_node_value(gameState.generateSuccessor(agent_index, action),
-                                                          cur_depth + 1, 0, alpha, beta)
+                next_v = self.get_node_value(gameState.generateSuccessor(agent_index, action),
+                                             cur_depth + 1, 0, alpha, beta)
                 v = min(v, next_v)  # begin next depth
-                if v <= alpha:
-                    return alpha, beta, v
+                if v < alpha:
+                    # print("pruning in beta_value")
+                    return v
             else:
-                alpha, beta, next_v = self.get_node_value(gameState.generateSuccessor(agent_index, action),
-                                                          cur_depth, agent_index + 1, alpha, beta)
+                next_v = self.get_node_value(gameState.generateSuccessor(agent_index, action),
+                                             cur_depth, agent_index + 1, alpha, beta)
                 v = min(v, next_v)  # begin next depth
-                if v <= alpha:  # next agent goes on at the same depth
-                    return alpha, beta, v
+                if v < alpha:  # next agent goes on at the same depth
+                    # print("pruning in beta_value")
+                    return v
             beta = min(beta, v)
-        return alpha, beta, v
+            # print("beta>> ", beta)
+        return v
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
