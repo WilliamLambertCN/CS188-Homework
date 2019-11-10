@@ -20,6 +20,7 @@ from functools import reduce
 
 VISIBILITY_MATRIX_CACHE = {}
 
+
 class Layout:
     """
     A Layout manages the static information about the game board.

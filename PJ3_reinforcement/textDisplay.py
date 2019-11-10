@@ -13,7 +13,6 @@
 
 
 import time
-
 try:
     import pacman
 except:
@@ -24,8 +23,8 @@ SLEEP_TIME = 0  # This can be overwritten by __init__
 DISPLAY_MOVES = False
 QUIET = False  # Supresses output
 
-class NullGraphics:
 
+class NullGraphics:
     def initialize(self, state, isBlue=False):
         pass
 
@@ -48,7 +47,6 @@ class NullGraphics:
         pass
 
 class PacmanGraphics:
-
     def __init__(self, speed=None):
         if speed != None:
             global SLEEP_TIME

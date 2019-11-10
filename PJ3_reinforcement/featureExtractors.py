@@ -18,7 +18,6 @@ from game import Directions, Actions
 import util
 
 class FeatureExtractor:
-
     def getFeatures(self, state, action):
         """
           Returns a dict from features to counts
@@ -28,14 +27,12 @@ class FeatureExtractor:
         util.raiseNotDefined()
 
 class IdentityExtractor(FeatureExtractor):
-
     def getFeatures(self, state, action):
         feats = util.Counter()
         feats[(state, action)] = 1.0
         return feats
 
 class CoordinateExtractor(FeatureExtractor):
-
     def getFeatures(self, state, action):
         feats = util.Counter()
         feats[state] = 1.0

@@ -33,17 +33,21 @@ _canvas_col = None  # Current colour (set to black below)
 _canvas_tsize = 12
 _canvas_tserifs = 0
 
+
 def formatColor(r, g, b):
     return '#%02x%02x%02x' % (int(r * 255), int(g * 255), int(b * 255))
 
+
 def colorToVector(color):
     return [int(x, 16) / 256.0 for x in [color[1:3], color[3:5], color[5:7]]]
+
 
 if _Windows:
     _canvas_tfonts = ['times new roman', 'lucida console']
 else:
     _canvas_tfonts = ['times', 'lucidasans-24']
     pass  # XXX need defaults here
+
 
 def sleep(secs):
     global _root_window
@@ -53,6 +57,7 @@ def sleep(secs):
         _root_window.update_idletasks()
         _root_window.after(int(1000 * secs), _root_window.quit)
         _root_window.mainloop()
+
 
 def begin_graphics(width=640, height=480, color=formatColor(0, 0, 0), title=None):
     global _root_window, _canvas, _canvas_x, _canvas_y, _canvas_xs, _canvas_ys, _bg_color
@@ -137,7 +142,6 @@ def draw_background():
 
 def _destroy_window(event=None):
     sys.exit(0)
-
 #    global _root_window
 #    _root_window.destroy()
 #    _root_window = None

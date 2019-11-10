@@ -84,7 +84,6 @@ class GameState:
         tmp = GameState.explored.copy()
         GameState.explored = set()
         return tmp
-
     getAndResetExplored = staticmethod(getAndResetExplored)
 
     def getLegalActions(self, agentIndex=0):
@@ -274,6 +273,7 @@ SCARED_TIME = 40  # Moves ghosts are scared
 COLLISION_TOLERANCE = 0.7  # How close ghosts must be to Pacman to kill
 TIME_PENALTY = 1  # Number of points lost each round
 
+
 class ClassicGameRules:
     """
     These game rules manage the control flow of a game, deciding when
@@ -336,6 +336,7 @@ class ClassicGameRules:
     def getMaxTimeWarnings(self, agentIndex):
         return 0
 
+
 class PacmanRules:
     """
     These functions govern how pacman interacts with his environment under
@@ -348,7 +349,6 @@ class PacmanRules:
         Returns a list of possible actions.
         """
         return Actions.getPossibleActions(state.getPacmanState().configuration, state.data.layout.walls)
-
     getLegalActions = staticmethod(getLegalActions)
 
     def applyAction(state, action):
@@ -372,7 +372,6 @@ class PacmanRules:
         if manhattanDistance(nearest, next) <= 0.5:
             # Remove food
             PacmanRules.consume(nearest, state)
-
     applyAction = staticmethod(applyAction)
 
     def consume(position, state):
@@ -395,8 +394,8 @@ class PacmanRules:
             # Reset all ghosts' scared timers
             for index in range(1, len(state.data.agentStates)):
                 state.data.agentStates[index].scaredTimer = SCARED_TIME
-
     consume = staticmethod(consume)
+
 
 class GhostRules:
     """
@@ -418,7 +417,6 @@ class GhostRules:
         if reverse in possibleActions and len(possibleActions) > 1:
             possibleActions.remove(reverse)
         return possibleActions
-
     getLegalActions = staticmethod(getLegalActions)
 
     def applyAction(state, action, ghostIndex):
@@ -434,7 +432,6 @@ class GhostRules:
         vector = Actions.directionToVector(action, speed)
         ghostState.configuration = ghostState.configuration.generateSuccessor(
                 vector)
-
     applyAction = staticmethod(applyAction)
 
     def decrementTimer(ghostState):
@@ -443,7 +440,6 @@ class GhostRules:
             ghostState.configuration.pos = nearestPoint(
                     ghostState.configuration.pos)
         ghostState.scaredTimer = max(0, timer - 1)
-
     decrementTimer = staticmethod(decrementTimer)
 
     def checkDeath(state, agentIndex):
@@ -459,7 +455,6 @@ class GhostRules:
             ghostPosition = ghostState.configuration.getPosition()
             if GhostRules.canKill(pacmanPosition, ghostPosition):
                 GhostRules.collide(state, ghostState, agentIndex)
-
     checkDeath = staticmethod(checkDeath)
 
     def collide(state, ghostState, agentIndex):
@@ -473,17 +468,14 @@ class GhostRules:
             if not state.data._win:
                 state.data.scoreChange -= 500
                 state.data._lose = True
-
     collide = staticmethod(collide)
 
     def canKill(pacmanPosition, ghostPosition):
         return manhattanDistance(ghostPosition, pacmanPosition) <= COLLISION_TOLERANCE
-
     canKill = staticmethod(canKill)
 
     def placeGhost(state, ghostState):
         ghostState.configuration = ghostState.start
-
     placeGhost = staticmethod(placeGhost)
 
 #############################
@@ -493,6 +485,7 @@ class GhostRules:
 
 def default(str):
     return str + ' [Default: %default]'
+
 
 def parseAgentArgs(str):
     if str == None:
@@ -506,6 +499,7 @@ def parseAgentArgs(str):
             key, val = p, 1
         opts[key] = val
     return opts
+
 
 def readCommand(argv):
     """
@@ -627,6 +621,7 @@ def readCommand(argv):
         sys.exit(0)
 
     return args
+
 
 def loadAgent(pacman, nographics):
     # Looks through all pythonPath Directories for the right module,

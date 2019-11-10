@@ -22,6 +22,7 @@ import traceback
 from collections import defaultdict
 import util
 
+
 class Grades:
     "A data structure for project grades, along with formatting code to display them"
 

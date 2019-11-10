@@ -87,7 +87,7 @@ class Application:
 
         ## Exit Button ##
         # self.exit_button = tkinter.Button(win,text='Quit', command=self.exit)
-        # self.exit_button.grid(row=0, column=9)
+        #self.exit_button.grid(row=0, column=9)
 
         ## Simulation Buttons ##
         #        self.setupSimulationButtons(win)
@@ -189,6 +189,7 @@ class Application:
         self.thread = threading.Thread(target=self.run)
         self.thread.start()
 
+
     def exit(self):
         self.running = False
         for i in range(5):
@@ -221,11 +222,14 @@ class Application:
         if robotType != 'pendulum':
             raise Exception('Only pendulum can animatePolicy')
 
+
         totWidth = self.canvas.winfo_reqwidth()
         totHeight = self.canvas.winfo_reqheight()
 
         length = 0.48 * min(totWidth, totHeight)
-        x, y = totWidth - length - 30, length + 10
+        x, y = totWidth - length - 30, length +10
+
+
 
         angleMin, angleMax = self.robot.getMinAndMaxAngle()
         velMin, velMax = self.robot.getMinAndMaxAngleVelocity()
@@ -234,7 +238,7 @@ class Application:
             self.canvas.create_line(x, y, x + length, y)
             self.canvas.create_line(x + length, y, x + length, y - length)
             self.canvas.create_line(x + length, y - length, x, y - length)
-            self.canvas.create_line(x, y - length, x, y)
+            self.canvas.create_line(x, y - length, x,y)
             self.animatePolicyBox = 1
             self.canvas.create_text(x + length / 2, y + 10, text='angle')
             self.canvas.create_text(x - 30, y - length / 2, text='velocity')
@@ -270,6 +274,9 @@ class Application:
                     x0, y0 = x + i * dx, y - j * dy
                     self.canvas.create_rectangle(x0, y0, x0 + dx, y0 + dy, fill=color)
 
+
+
+
     def run(self):
         self.stepCount = 0
         self.learner.startEpisode()
@@ -300,12 +307,11 @@ def run():
 
     #  root.mainloop()
 
-    app = Application(root)
 
+    app = Application(root)
     def update_gui():
         app.robot.draw(app.stepCount, app.tickTime)
         root.after(10, update_gui)
-
     update_gui()
 
     root.protocol('WM_DELETE_WINDOW', app.exit)

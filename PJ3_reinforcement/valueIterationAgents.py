@@ -26,9 +26,10 @@
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
 
-import util
+import mdp, util
 
 from learningAgents import ValueEstimationAgent
+import collections
 
 class ValueIterationAgent(ValueEstimationAgent):
     """
@@ -150,8 +151,18 @@ class AsynchronousValueIterationAgent(ValueIterationAgent):
         ValueIterationAgent.__init__(self, mdp, discount, iterations)
 
     def runValueIteration(self):
-        """*** YOUR CODE HERE ***"""
-        util.raiseNotDefined()
+        "*** YOUR CODE HERE ***"
+        states = self.mdp.getStates()
+        numStates = len(states)
+        for i in range(self.iterations):
+            state = states[i % numStates]
+            if not self.mdp.isTerminal(state):
+                maxQ = -float('inf')
+                for action in self.mdp.getPossibleActions(state):
+                    qValue = self.computeQValueFromValues(state, action)
+                    if qValue > maxQ:
+                        maxQ = qValue
+                self.values[state] = maxQ
 
 class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
     """
@@ -173,4 +184,34 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
 
     def runValueIteration(self):
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        states = self.mdp.getStates()
+        numStates = len(states)
+
+        preDict = {}
+        for state in [s for s in states if not self.mdp.isTerminal(s)]:
+            for action in self.mdp.getPossibleActions(state):
+                for nextState in [pair[0] for pair in self.mdp.getTransitionStatesAndProbs(state, action)]:
+                    if nextState not in preDict:
+                        preDict[nextState] = set()
+                    preDict[nextState].add(state)
+
+        prioQueue = util.PriorityQueue()
+        for state in states:
+            if not self.mdp.isTerminal(state):
+                maxQ = max([self.computeQValueFromValues(state, a) for a in self.mdp.getPossibleActions(state)])
+                diff = abs(maxQ - self.getValue(state))
+                prioQueue.update(state, -diff)
+
+        for i in range(self.iterations):
+            if prioQueue.isEmpty():
+                break
+
+            state = prioQueue.pop()
+            if not self.mdp.isTerminal(state):
+                maxQ = max([self.computeQValueFromValues(state, a) for a in self.mdp.getPossibleActions(state)])
+                self.values[state] = maxQ
+                for pred in preDict[state]:
+                    maxQ = max([self.computeQValueFromValues(pred, a) for a in self.mdp.getPossibleActions(pred)])
+                    diff = abs(maxQ - self.getValue(pred))
+                    if diff > self.theta:
+                        prioQueue.update(pred, -diff)

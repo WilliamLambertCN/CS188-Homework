@@ -15,6 +15,7 @@
 import re
 import sys
 
+
 class TestParser(object):
 
     def __init__(self, path):

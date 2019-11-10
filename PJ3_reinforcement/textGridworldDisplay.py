@@ -217,6 +217,7 @@ def prettyPrintQValues(gridWorld, qValues, currentState=None):
             if 'exit' in bestActions:
                 exitString = '[ ' + exitString + ' ]'
 
+
             ewString = westString + "     " + eastString
             if state == currentState:
                 ewString = westString + "  *  " + eastString
@@ -272,12 +273,10 @@ def indent(rows, hasHeader=False, headerChar='-', delim=' | ', justify='left',
        - postfix: A string appended to each printed row.
        - wrapfunc: A function f(text) for wrapping text; each element in
          the table is first wrapped by this function."""
-
     # closure for breaking logical rows to physical, using wrapfunc
     def rowWrapper(row):
         newRows = [wrapfunc(item).split('\n') for item in row]
         return [[substr or '' for substr in item] for item in list(*newRows)]
-
     # break each logical row into one or more physical ones
     logicalRows = [rowWrapper(row) for row in rows]
     # columns of physical rows
@@ -299,12 +298,12 @@ def indent(rows, hasHeader=False, headerChar='-', delim=' | ', justify='left',
     return output.getvalue()
 
 import math
-
 def wrap_always(text, width):
     """A simple word-wrap function that wraps text on exactly width characters.
        It doesn't split the text in words."""
     return '\n'.join([text[width * i:width * (i + 1)] \
                       for i in range(int(math.ceil(1. * len(text) / width)))])
+
 
 # TEST OF DISPLAY CODE
 

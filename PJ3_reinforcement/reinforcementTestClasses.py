@@ -21,7 +21,6 @@ from collections import defaultdict
 from pprint import PrettyPrinter
 from hashlib import sha1
 from functools import reduce
-
 pp = PrettyPrinter()
 VERBOSE = False
 
@@ -204,8 +203,8 @@ class ValueIterationTest(testClasses.TestCase):
         values = pretty.split()
         return values
 
-class AsynchronousValueIterationTest(ValueIterationTest):
 
+class AsynchronousValueIterationTest(ValueIterationTest):
     def runAgent(self, moduleDict, numIterations):
         agent = moduleDict['valueIterationAgents'].AsynchronousValueIterationAgent(self.grid, discount=self.discount,
                                                                                    iterations=numIterations)
@@ -233,7 +232,6 @@ class AsynchronousValueIterationTest(ValueIterationTest):
         return (valuesPretty, qValuesPretty, actions, policyPretty)
 
 class PrioritizedSweepingValueIterationTest(ValueIterationTest):
-
     def runAgent(self, moduleDict, numIterations):
         agent = moduleDict['valueIterationAgents'].PrioritizedSweepingValueIterationAgent(self.grid,
                                                                                           discount=self.discount,
@@ -426,6 +424,7 @@ class ApproximateQLearningTest(testClasses.TestCase):
         values = pretty.split()
         return values
 
+
 class QLearningTest(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -614,6 +613,7 @@ class QLearningTest(testClasses.TestCase):
         values = pretty.split()
         return values
 
+
 class EpsilonGreedyTest(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -683,6 +683,7 @@ class EpsilonGreedyTest(testClasses.TestCase):
                 return False
         return True
 
+
 ### q8
 class Question8Test(testClasses.TestCase):
 
@@ -707,6 +708,7 @@ class Question8Test(testClasses.TestCase):
         handle.close()
         return True
 
+
 ### q7/q8
 ### =====
 ## Average wins of a pacman agent
@@ -726,6 +728,7 @@ class EvalAgentTest(testClasses.TestCase):
         self.winsThresholds = [int(s) for s in testDict.get('winsThresholds', '').split()]
 
         self.maxPoints = sum([len(t) for t in [self.scoreThresholds, self.nonTimeoutThresholds, self.winsThresholds]])
+
 
     def execute(self, grades, moduleDict, solutionDict):
         self.addMessage('Grading agent using command:  python pacman.py %s' % (self.pacmanParams,))
@@ -831,6 +834,7 @@ def parseGrid(string):
             row[x] = col
     return gridworld.makeGrid(grid)
 
+
 def computePolicy(moduleDict, grid, discount):
     valueIterator = moduleDict['valueIterationAgents'].ValueIterationAgent(grid, discount=discount)
     policy = {}
@@ -872,6 +876,7 @@ class GridPolicyTest(testClasses.TestCase):
         #    (x,y) for a particular location; (0,0) is bottom left
         #    terminal for the terminal state
         self.pathNotVisits = testDict.get('pathNotVisits', None)
+
 
     def execute(self, grades, moduleDict, solutionDict):
         if not hasattr(moduleDict['analysis'], self.parameterFn):
@@ -998,3 +1003,4 @@ class GridPolicyTest(testClasses.TestCase):
             handle.write('# This is the solution file for %s.\n' % self.path)
             handle.write('# File intentionally blank.\n')
         return True
+

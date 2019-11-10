@@ -49,6 +49,7 @@ class Agent:
         """
         raiseNotDefined()
 
+
 class Directions:
     NORTH = 'North'
     SOUTH = 'South'
@@ -69,6 +70,7 @@ class Directions:
                EAST: WEST,
                WEST: EAST,
                STOP: STOP}
+
 
 class Configuration:
     """
@@ -121,6 +123,7 @@ class Configuration:
             direction = self.direction  # There is no stop direction
         return Configuration((x + dx, y + dy), direction)
 
+
 class AgentState:
     """
     AgentStates hold the state of an agent (configuration, speed, scared, etc).
@@ -164,6 +167,7 @@ class AgentState:
 
     def getDirection(self):
         return self.configuration.getDirection()
+
 
 class Grid:
     """
@@ -288,6 +292,7 @@ class Grid:
                 bools.append(False)
         return bools
 
+
 def reconstituteGrid(bitRep):
     if type(bitRep) is not type((1, 2)):
         return bitRep
@@ -324,7 +329,6 @@ class Actions:
         if action == Directions.WEST:
             return Directions.EAST
         return action
-
     reverseDirection = staticmethod(reverseDirection)
 
     def vectorToDirection(vector):
@@ -338,13 +342,11 @@ class Actions:
         if dx > 0:
             return Directions.EAST
         return Directions.STOP
-
     vectorToDirection = staticmethod(vectorToDirection)
 
     def directionToVector(direction, speed=1.0):
         dx, dy = Actions._directions[direction]
         return (dx * speed, dy * speed)
-
     directionToVector = staticmethod(directionToVector)
 
     def getPossibleActions(config, walls):
@@ -382,15 +384,14 @@ class Actions:
             if not walls[next_x][next_y]:
                 neighbors.append((next_x, next_y))
         return neighbors
-
     getLegalNeighbors = staticmethod(getLegalNeighbors)
 
     def getSuccessor(position, action):
         dx, dy = Actions.directionToVector(action)
         x, y = position
         return (x + dx, y + dy)
-
     getSuccessor = staticmethod(getSuccessor)
+
 
 class GameStateData:
 
@@ -537,12 +538,13 @@ class GameStateData:
                     Configuration(pos, Directions.STOP), isPacman))
         self._eaten = [False for a in self.agentStates]
 
+
 try:
     import boinc
-
     _BOINC_ENABLED = True
 except:
     _BOINC_ENABLED = False
+
 
 class Game:
     """

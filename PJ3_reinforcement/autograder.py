@@ -21,7 +21,6 @@ import re
 import sys
 import projectParams
 import random
-
 random.seed(0)
 try:
     from pacman import GameState
@@ -85,6 +84,7 @@ def readCommand(argv):
     (options, args) = parser.parse_args(argv)
     return options
 
+
 # confirm we should author solution files
 def confirmGenerate():
     print('WARNING: this action will overwrite any solution files.')
@@ -97,6 +97,7 @@ def confirmGenerate():
             sys.exit(0)
         else:
             print('please answer either "yes" or "no"')
+
 
 # TODO: Fix this so that it tracebacks work correctly
 # Looking at source of the traceback module, presuming it works
@@ -125,22 +126,26 @@ def loadModuleString(moduleSource):
     #    ValueError: load_module arg#2 should be a file or None
     #
     # f = StringIO(moduleCodeDict[k])
-    # tmp = imp.load_module(k, f, k, (".py", "r", imp.PY_SOURCE))
+    #tmp = imp.load_module(k, f, k, (".py", "r", imp.PY_SOURCE))
     tmp = imp.new_module(k)
     exec(moduleCodeDict[k], tmp.__dict__)
     setModuleName(tmp, k)
     return tmp
 
+
 import py_compile
+
 
 def loadModuleFile(moduleName, filePath):
     with open(filePath, 'r') as f:
         return imp.load_module(moduleName, f, "%s.py" % moduleName, (".py", "r", imp.PY_SOURCE))
 
+
 def readFile(path, root=""):
     "Read file from disk at specified path and return as string"
     with open(os.path.join(root, path), 'r') as handle:
         return handle.read()
+
 
 #######################################################################
 # Error Hint Map
@@ -173,6 +178,7 @@ ERROR_HINT_MAP = {
 
 import pprint
 
+
 def splitStrings(d):
     d2 = dict(d)
     for k in d:
@@ -182,6 +188,7 @@ def splitStrings(d):
         if d2[k].find("\n") >= 0:
             d2[k] = d2[k].split("\n")
     return d2
+
 
 def printTest(testDict, solutionDict):
     pp = pprint.PrettyPrinter(indent=4)
@@ -295,13 +302,11 @@ def evaluate(generateSolutions, testRoot, moduleDict, exceptionMap=ERROR_HINT_MA
                                                                                                     solutionDict)
                     else:
                         return lambda grades: testCase.execute(grades, moduleDict, solutionDict)
-
             question.addTestCase(testCase, makefun(testCase, solution_file))
 
         # Note extra function is necessary for scoping reasons
         def makefun(question):
             return lambda grades: question.execute(grades)
-
         setattr(sys.modules[__name__], q, makefun(question))
         questions.append((q, question.getMaxPoints()))
 

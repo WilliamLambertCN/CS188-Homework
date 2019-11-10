@@ -17,6 +17,7 @@ import inspect
 import re
 import sys
 
+
 # Class which models a question in a project.  Note that questions have a
 # maximum number of points they are worth, and are composed of a series of
 # test cases
@@ -61,7 +62,6 @@ class PassAllTestsQuestion(Question):
             grades.assignFullCredit()
 
 class ExtraCreditPassAllTestsQuestion(Question):
-
     def __init__(self, questionDict, display):
         Question.__init__(self, questionDict, display)
         self.extraPoints = int(questionDict['extra_points'])

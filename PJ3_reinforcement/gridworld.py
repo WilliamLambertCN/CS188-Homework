@@ -23,7 +23,6 @@ class Gridworld(mdp.MarkovDecisionProcess):
     """
       Gridworld
     """
-
     def __init__(self, grid):
         # layout
         if type(grid) == type([]): grid = makeGrid(grid)
@@ -48,6 +47,7 @@ class Gridworld(mdp.MarkovDecisionProcess):
         The probability of moving in an unintended direction.
         """
         self.noise = noise
+
 
     def getPossibleActions(self, state):
         """
@@ -109,6 +109,7 @@ class Gridworld(mdp.MarkovDecisionProcess):
         in the R+N textbook.
         """
         return state == self.grid.terminalState
+
 
     def getTransitionStatesAndProbs(self, state, action):
         """
@@ -221,7 +222,6 @@ class Grid:
 
     The __str__ method constructs an output that is oriented appropriately.
     """
-
     def __init__(self, width, height, initialValue=' '):
         self.width = width
         self.height = height
@@ -442,6 +442,7 @@ def parseOptions():
 
     return opts
 
+
 if __name__ == '__main__':
 
     opts = parseOptions()
@@ -458,16 +459,15 @@ if __name__ == '__main__':
     mdp.setNoise(opts.noise)
     env = gridworld.GridworldEnvironment(mdp)
 
+
     ###########################
     # GET THE DISPLAY ADAPTER
     ###########################
 
     import textGridworldDisplay
-
     display = textGridworldDisplay.TextGridworldDisplay(mdp)
     if not opts.textDisplay:
         import graphicsGridworldDisplay
-
         display = graphicsGridworldDisplay.GraphicsGridworldDisplay(mdp, opts.gridSize, opts.speed)
     try:
         display.start()
@@ -479,7 +479,6 @@ if __name__ == '__main__':
     ###########################
 
     import valueIterationAgents, qlearningAgents
-
     a = None
     if opts.agent == 'value':
         a = valueIterationAgents.ValueIterationAgent(mdp, opts.discount, opts.iters)
@@ -497,25 +496,18 @@ if __name__ == '__main__':
         # # No reason to use the random agent without episodes
         if opts.episodes == 0:
             opts.episodes = 10
-
         class RandomAgent:
-
             def getAction(self, state):
                 return random.choice(mdp.getPossibleActions(state))
-
             def getValue(self, state):
                 return 0.0
-
             def getQValue(self, state, action):
                 return 0.0
-
             def getPolicy(self, state):
                 "NOTE: 'random' is a special policy value; don't use it in your code."
                 return 'random'
-
             def update(self, state, action, nextState, reward):
                 pass
-
         a = RandomAgent()
     elif opts.agent == 'asynchvalue':
         a = valueIterationAgents.AsynchronousValueIterationAgent(mdp, opts.discount, opts.iters)
@@ -523,6 +515,7 @@ if __name__ == '__main__':
         a = valueIterationAgents.PrioritizedSweepingValueIterationAgent(mdp, opts.discount, opts.iters)
     else:
         if not opts.manual: raise Exception('Unknown agent type: ' + opts.agent)
+
 
     ###########################
     # RUN EPISODES

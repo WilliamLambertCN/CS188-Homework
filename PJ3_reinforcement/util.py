@@ -35,7 +35,6 @@ import io
 import functools
 
 class Experiences(object):
-
     def __init__(self, test_name):
         self._idx = -1
         self._experiences = self._get_experiences(test_name)
@@ -3518,12 +3517,10 @@ class Experiences(object):
         else:
             raise NotImplementedError
         return list_experiences
-
 #
 #
 #
 class FixedRandom:
-
     def __init__(self):
         fixedState = (3, (2147483648, 507801126, 683453281, 310439348, 2597246090,
                           2209084787, 2267831527, 979920060, 3098657677, 37650879, 807947081, 3974896263,
@@ -3618,9 +3615,11 @@ class FixedRandom:
         self.random = random.Random()
         self.random.setstate(fixedState)
 
+
 """
  Data structures useful for implementing SearchAgents
 """
+
 
 class Stack:
     "A container with a last-in-first-out (LIFO) queuing policy."
@@ -3639,6 +3638,7 @@ class Stack:
     def isEmpty(self):
         "Returns true if the stack is empty"
         return len(self.list) == 0
+
 
 class Queue:
     "A container with a first-in-first-out (FIFO) queuing policy."
@@ -3660,6 +3660,7 @@ class Queue:
     def isEmpty(self):
         "Returns true if the queue is empty"
         return len(self.list) == 0
+
 
 class PriorityQueue:
     """
@@ -3700,6 +3701,7 @@ class PriorityQueue:
         else:
             self.push(item, priority)
 
+
 class PriorityQueueWithFunction(PriorityQueue):
     """
     Implements a priority queue with the same push/pop signature of the
@@ -3716,6 +3718,7 @@ class PriorityQueueWithFunction(PriorityQueue):
     def push(self, item):
         "Adds an item to the queue with priority from the priority function"
         PriorityQueue.push(self, item, self.priorityFunction(item))
+
 
 def manhattanDistance(xy1, xy2):
     "Returns the Manhattan distance between points xy1 and xy2"
@@ -3812,7 +3815,6 @@ class Counter(dict):
         sortedItems = list(self.items())
 
         def compare(x, y): return sign(y[1] - x[1])
-
         sortedItems.sort(key=functools.cmp_to_key(compare))
         return [x[0] for x in sortedItems]
 
@@ -4123,7 +4125,6 @@ class TimeoutFunctionException(Exception):
     pass
 
 class TimeoutFunction:
-
     def __init__(self, function, timeout):
         self.timeout = timeout
         self.function = function
@@ -4156,7 +4157,6 @@ _ORIGINAL_STDERR = None
 _MUTED = False
 
 class WritableNull:
-
     def write(self, string):
         pass
 
@@ -4169,7 +4169,8 @@ def mutePrint():
     _ORIGINAL_STDOUT = sys.stdout
     # _ORIGINAL_STDERR = sys.stderr
     sys.stdout = WritableNull()
-    # sys.stderr = WritableNull()
+    #sys.stderr = WritableNull()
+
 
 def unmutePrint():
     global _ORIGINAL_STDOUT, _ORIGINAL_STDERR, _MUTED
@@ -4178,4 +4179,4 @@ def unmutePrint():
     _MUTED = False
 
     sys.stdout = _ORIGINAL_STDOUT
-    # sys.stderr = _ORIGINAL_STDERR
+    #sys.stderr = _ORIGINAL_STDERR

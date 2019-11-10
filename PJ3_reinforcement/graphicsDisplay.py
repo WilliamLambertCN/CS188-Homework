@@ -80,8 +80,8 @@ CAPSULE_SIZE = 0.25
 # Drawing walls
 WALL_RADIUS = 0.15
 
-class InfoPane:
 
+class InfoPane:
     def __init__(self, layout, gridSize):
         self.gridSize = gridSize
         self.width = (layout.width) * gridSize
@@ -159,8 +159,8 @@ class InfoPane:
     def clearMessage(self):
         pass
 
-class PacmanGraphics:
 
+class PacmanGraphics:
     def __init__(self, zoom=1.0, frameTime=0.0, capture=False):
         self.have_window = 0
         self.currentGhostImages = {}
@@ -487,8 +487,7 @@ class PacmanGraphics:
                         # vertical line
                         line(add(screen, (self.gridSize * WALL_RADIUS, 0)), add(screen,
                                                                                 (self.gridSize * WALL_RADIUS,
-                                                                                 self.gridSize * (-0.5) - 1)),
-                             wallColor)
+                                                                                 self.gridSize * (-0.5) - 1)), wallColor)
                     if (not nIsWall) and (eIsWall):
                         # horizontal line
                         line(add(screen, (0, self.gridSize * (-1) * WALL_RADIUS)), add(screen,
@@ -548,8 +547,7 @@ class PacmanGraphics:
                         line(add(screen, (0, self.gridSize * (1) * WALL_RADIUS)), add(screen,
                                                                                       (self.gridSize * 0.5 + 1,
                                                                                        self.gridSize * (
-                                                                                           1) * WALL_RADIUS)),
-                             wallColor)
+                                                                                           1) * WALL_RADIUS)), wallColor)
                     if (sIsWall) and (eIsWall) and (not seIsWall):
                         # outer circle
                         circle(add(screen2, (self.gridSize * 2 * WALL_RADIUS, self.gridSize * (2) * WALL_RADIUS)),
@@ -576,8 +574,7 @@ class PacmanGraphics:
                         line(add(screen, (0, self.gridSize * (1) * WALL_RADIUS)), add(screen,
                                                                                       (self.gridSize * (-0.5) - 1,
                                                                                        self.gridSize * (
-                                                                                           1) * WALL_RADIUS)),
-                             wallColor)
+                                                                                           1) * WALL_RADIUS)), wallColor)
                     if (sIsWall) and (wIsWall) and (not swIsWall):
                         # outer circle
                         circle(add(screen2, (self.gridSize * (-2) * WALL_RADIUS, self.gridSize * (2) * WALL_RADIUS)),
@@ -685,8 +682,8 @@ class PacmanGraphics:
                 changeColor(image, formatColor(*color))
         refresh()
 
-class FirstPersonPacmanGraphics(PacmanGraphics):
 
+class FirstPersonPacmanGraphics(PacmanGraphics):
     def __init__(self, zoom=1.0, showGhosts=True, capture=False, frameTime=0):
         PacmanGraphics.__init__(self, zoom, frameTime=frameTime)
         self.showGhosts = showGhosts
@@ -732,8 +729,10 @@ class FirstPersonPacmanGraphics(PacmanGraphics):
         else:
             return PacmanGraphics.getPosition(self, ghostState)
 
+
 def add(x, y):
     return (x[0] + y[0], x[1] + y[1])
+
 
 # Saving graphical output
 # -----------------------
@@ -745,6 +744,7 @@ SAVE_POSTSCRIPT = False
 POSTSCRIPT_OUTPUT_DIR = 'frames'
 FRAME_NUMBER = 0
 import os
+
 
 def saveFrame():
     "Saves the current graphical output as a postscript file"

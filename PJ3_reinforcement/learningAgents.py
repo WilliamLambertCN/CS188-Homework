@@ -98,7 +98,6 @@ class ReinforcementAgent(ValueEstimationAgent):
         - Use self.getLegalActions(state) to know which actions
                       are available in a state
     """
-
     ####################################
     #    Override These Functions      #
     ####################################
