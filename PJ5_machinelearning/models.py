@@ -68,7 +68,7 @@ class RegressionModel(object):
         self.b0 = nn.Parameter(1, 80)
         self.w1 = nn.Parameter(80, 1)
         self.b1 = nn.Parameter(1, 1)
-        self.alpha = 0.0025
+        self.alpha = 0.005
 
     def run(self, x):
         """
@@ -121,7 +121,7 @@ class RegressionModel(object):
                 self.b1.update(grad[3], -self.alpha)
 
             # print(nn.as_scalar(self.get_loss(nn.Constant(dataset.x), nn.Constant(dataset.y))))
-            if nn.as_scalar(self.get_loss(nn.Constant(dataset.x), nn.Constant(dataset.y))) < 1e-4:
+            if nn.as_scalar(self.get_loss(nn.Constant(dataset.x), nn.Constant(dataset.y))) < 0.01:
                 return
 
 class DigitClassificationModel(object):
@@ -142,6 +142,12 @@ class DigitClassificationModel(object):
     def __init__(self):
         # Initialize your model parameters here
         "*** YOUR CODE HERE ***"
+        self.batch_size = 5
+        self.w0 = nn.Parameter(784, 100)
+        self.b0 = nn.Parameter(1, 100)
+        self.w1 = nn.Parameter(100, 10)
+        self.b1 = nn.Parameter(1, 10)
+        self.multiplier = -0.004
 
     def run(self, x):
         """
@@ -158,6 +164,12 @@ class DigitClassificationModel(object):
                 (also called logits)
         """
         "*** YOUR CODE HERE ***"
+        w1x = nn.Linear(x, self.w0)
+        w1x_plus_b1 = nn.AddBias(w1x, self.b0)
+        r1 = nn.ReLU(w1x_plus_b1)
+        w2x = nn.Linear(r1, self.w1)
+        w2x_plus_b2 = nn.AddBias(w2x, self.b1)
+        return w2x_plus_b2
 
     def get_loss(self, x, y):
         """
@@ -173,12 +185,34 @@ class DigitClassificationModel(object):
         Returns: a loss node
         """
         "*** YOUR CODE HERE ***"
+        return nn.SoftmaxLoss(self.run(x), y)
 
     def train(self, dataset):
         """
         Trains the model.
         """
         "*** YOUR CODE HERE ***"
+        while True:
+            for x, y in dataset.iterate_once(self.batch_size):
+                loss = self.get_loss(x, y)
+                grad = nn.gradients(loss, [self.w0, self.w1, self.b0, self.b1])
+                self.w0.update(grad[0], self.multiplier)
+                self.w1.update(grad[1], self.multiplier)
+                self.b0.update(grad[2], self.multiplier)
+                self.b1.update(grad[3], self.multiplier)
+            print("""
+            *
+            *
+            *\n""",
+                  dataset.get_validation_accuracy(),
+                  """
+                  *
+                  *
+                  *
+                  *""")
+            if dataset.get_validation_accuracy() >= 0.974:
+                return
+
 
 class LanguageIDModel(object):
     """
