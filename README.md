@@ -4,14 +4,21 @@ CS188 2019 summer version
 To be continued in this semester.  
 
 ## PJ1_search  
-![PJ1_search](https://github.com/WilliamLambertCN/CS188-Homework/blob/master/Screenshot/PJ1_Search.png)
+![PJ1_search](./Screenshot/PJ1_Search.png)
 
 ## PJ2_multiagent  
-![PJ2_multiagent](https://github.com/WilliamLambertCN/CS188-Homework/blob/master/Screenshot/PJ2_MultiAgentSearch.png)
+![PJ2_multiagent](./Screenshot/PJ2_MultiAgentSearch.png)
 
 ## PJ3_reinforcement  
-![PJ3_reinforcement](https://github.com/WilliamLambertCN/CS188-Homework/blob/master/Screenshot/PJ3_ReinforcementLearning.png)
+![PJ3_reinforcement](./Screenshot/PJ3_ReinforcementLearning.png)
+![PJ3_results](./Screenshot/PJ3_results.png)
+
+## PJ4_Ghostbusters 
+![PJ4_Ghostbusters](./Screenshot/PJ4_Ghostbusters.png)
+
+![PJ4_results](./Screenshot/PJ4_results.jpeg)  
+ 
 
 ## PJ5_machinelearning  
 In this Project, Q4 requires me to implement a RNN myself, using ReLu for activation, including bias in the model.  
-![PJ5_machinelearning ](https://github.com/WilliamLambertCN/CS188-Homework/blob/master/Screenshot/PJ5_MachineLearning.png)
+![PJ5_machinelearning ](./PJ5_MachineLearning.png)
