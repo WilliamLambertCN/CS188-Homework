@@ -21,4 +21,4 @@ To be continued in this semester.
 
 ## PJ5_machinelearning  
 In this Project, Q4 requires me to implement a RNN myself, using ReLu for activation, including bias in the model.  
-![PJ5_machinelearning ](./PJ5_MachineLearning.png)
+![PJ5_machinelearning ](./Screenshot/PJ5_MachineLearning.png)
