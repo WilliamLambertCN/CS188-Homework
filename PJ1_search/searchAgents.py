@@ -376,33 +376,64 @@ def cornersHeuristic(state, problem):
     walls = problem.walls  # These are the walls of the dfs_maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
+####################################################
+#     the method which takes too much time         #
+####################################################
+#     def unseen_corners(state):
+#         visited_corners = set(state[1])
+#         my_corners = set(corners)
+#         return tuple(my_corners.difference(visited_corners))
 
-    def unseen_corners(state):
-        visited_corners = set(state[1])
-        my_corners = set(corners)
-        return tuple(my_corners.difference(visited_corners))
+#     def max_dis(unseen):
+#         distances = []
+#         for corner in unseen:
+#             value = dfs_maze(state[0], corner)
+#             distances.append(value)
+#         if distances:
+#             return max(distances)
+#         else:
+#             return 0
 
-    def max_dis(unseen):
-        distances = []
-        for corner in unseen:
-            value = dfs_maze(state[0], corner)
-            distances.append(value)
-        if distances:
-            return max(distances)
-        else:
-            return 0
+#     def dfs_maze(point1, point2):
+#         x1, y1 = point1
+#         x2, y2 = point2
+#         assert not walls[x1][y1], 'point1 is a wall: ' + point1
+#         assert not walls[x2][y2], 'point2 is a wall: ' + str(point2)
+#         prob = PositionSearchProblem(problem.startingGameState, start=point1, goal=point2, warn=False)
+#         return len(search.bfs(prob))
 
-    def dfs_maze(point1, point2):
-        x1, y1 = point1
-        x2, y2 = point2
-        assert not walls[x1][y1], 'point1 is a wall: ' + point1
-        assert not walls[x2][y2], 'point2 is a wall: ' + str(point2)
-        prob = PositionSearchProblem(problem.startingGameState, start=point1, goal=point2, warn=False)
-        return len(search.bfs(prob))
-
-    unseen = unseen_corners(state)
-    return max_dis(unseen)
-    # return 0 # Default to trivial solution
+#     unseen = unseen_corners(state)
+#     return max_dis(unseen)
+#     # return 0 # Default to trivial solution
+##################################################################################################
+#    a more elegant heuristic function                                                           #
+#    the min value of manhattanDistance of the path that go through all left corners             #
+#    950 extended node                                                                           #
+##################################################################################################
+    def manhattanDis(point1, point2):
+        xy1 = point1
+        xy2 = point2
+        return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+    
+    def manhattanSum(pos, unseen, sum):
+        if unseen == []:
+            sums.append(sum)
+        for item in unseen:
+            tmp = list(unseen)
+            tmp.remove(item)
+            sum += manhattanDis(pos, item)
+            manhattanSum(item, tmp, sum)
+            sum -= manhattanDis(pos, item)
+            
+    sums = []
+    unseen = []
+    point = state[0]
+    for corner in corners:
+        if corner not in state[1]:
+            unseen.append(corner)
+    manhattanSum(point, unseen, 0)
+    sum = min(sums)
+    return sum
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
